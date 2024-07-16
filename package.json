@@ -1,0 +1,43 @@
+{
+  "name": "ez-cli-tools",
+  "version": "1.0.0",
+  "description": "Typescript first CLI tools for Node.js with zero dependencies",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
+  "scripts": {
+    "build": "pnpm build:cjs && pnpm build:esm",
+    "build:cjs": "rm -rf ./dist/cjs && tsc -p ./configs/tsconfig.cjs.json",
+    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && rename 's/\\.js$/.mjs/' dist/esm/*.js && rename 's/\\.js$/.mjs/' dist/esm/**/*.js"
+  },
+  "type": "module",
+  "keywords": [
+    "cli",
+    "command-line",
+    "tool",
+    "node",
+    "typescript"
+  ],
+  "author": "Alexander Kahoun (bit-cmdr)",
+  "license": "MIT",
+  "files": [
+    "/dist",
+    "/index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a",
+  "devDependencies": {
+    "@tsconfig/node20": "20.1.4",
+    "@types/node": "20.14.10",
+    "@typescript-eslint/eslint-plugin": "7.16.0",
+    "@typescript-eslint/parser": "7.16.0",
+    "eslint": "9.7.0",
+    "prettier": "3.3.3",
+    "typescript": "5.5.3"
+  }
+}
