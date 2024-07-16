@@ -1,6 +1,6 @@
 {
   "name": "ez-cli-tools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -11,6 +11,7 @@
   },
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "build": "pnpm build:cjs && pnpm build:esm",
     "build:cjs": "rm -rf ./dist/cjs && tsc -p ./configs/tsconfig.cjs.json",
@@ -33,14 +34,13 @@
   "author": "Alexander Kahoun (bit-cmdr)",
   "license": "MIT",
   "files": [
-    "/dist",
-    "/index.d.ts"
+    "/dist"
   ],
-  "types": "./index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./package.json": "./package.json"
   },
