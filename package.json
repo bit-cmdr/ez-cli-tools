@@ -2,6 +2,13 @@
   "name": "ez-cli-tools",
   "version": "1.0.1",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bit-cmdr/ez-cli-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bit-cmdr/ez-cli-tools/issues"
+  },
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
   "scripts": {
