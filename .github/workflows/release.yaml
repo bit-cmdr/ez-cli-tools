@@ -43,6 +43,7 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           provenance: true
+          access: public
 
       - if: ${{ steps.publish.outputs.type }}
         run: echo "Published version ${{ steps.publish.outputs.version }} to npm"

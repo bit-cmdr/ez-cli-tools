@@ -7,7 +7,13 @@
   "scripts": {
     "build": "pnpm build:cjs && pnpm build:esm",
     "build:cjs": "rm -rf ./dist/cjs && tsc -p ./configs/tsconfig.cjs.json",
-    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && pnpm tsx scripts/rename-js-to-mjs.ts"
+    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && pnpm tsx scripts/rename-js-to-mjs.ts",
+    "prettier": "prettier --check src/**/*.ts index.ts",
+    "prettier:fix": "prettier --write src/**/*.ts index.ts",
+    "lint": "eslint --cache --ext .ts ./src index.ts",
+    "lint:fix": "eslint --cache --fix --ext .ts ./src index.ts",
+    "check": "pnpm lint && pnpm prettier",
+    "fix": "pnpm lint:fix && pnpm prettier:fix"
   },
   "type": "module",
   "keywords": [
@@ -23,6 +29,7 @@
     "/dist",
     "/index.d.ts"
   ],
+  "types": "./index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
