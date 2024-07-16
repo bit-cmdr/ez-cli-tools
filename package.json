@@ -7,7 +7,7 @@
   "scripts": {
     "build": "pnpm build:cjs && pnpm build:esm",
     "build:cjs": "rm -rf ./dist/cjs && tsc -p ./configs/tsconfig.cjs.json",
-    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && rename 's/\\.js$/.mjs/' dist/esm/*.js && rename 's/\\.js$/.mjs/' dist/esm/**/*.js"
+    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && pnpm tsx scripts/rename-js-to-mjs.ts"
   },
   "type": "module",
   "keywords": [
@@ -38,6 +38,7 @@
     "@typescript-eslint/parser": "7.16.0",
     "eslint": "9.7.0",
     "prettier": "3.3.3",
+    "tsx": "4.16.2",
     "typescript": "5.5.3"
   }
 }
