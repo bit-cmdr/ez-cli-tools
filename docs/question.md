@@ -1,4 +1,4 @@
-# Question Example
+# Ask question Example
 
 ```ts
 import { ask } from 'ez-cli-tools';
