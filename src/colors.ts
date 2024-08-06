@@ -11,6 +11,8 @@ export const colors = {
   grey: colorize(90),
 };
 
+export type Color = keyof typeof colors;
+
 function colorize(color: number): (text: string) => string {
   return (text: string) => {
     return `\x1b[${color}m${text}\x1b[0m`;
