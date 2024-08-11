@@ -24,6 +24,8 @@ pnpm add ez-cli-tools
 
 ## Usage
 
+- [Writing](docs/write.md)
 - [Questions](docs/question.md)
 - [Single Select](docs/single-select.md)
 - [Multi Select](docs/multi-select.md)
+- [Progress](docs/progress.md)
