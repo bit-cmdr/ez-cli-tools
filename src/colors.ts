@@ -1,3 +1,7 @@
+/**
+ * A collection of color functions that can be used to colorize text for the output stream.
+ * This assumes that the output stream supports ANSI color codes.
+ */
 export const colors = {
   red: colorize(31),
   green: colorize(32),
@@ -11,6 +15,9 @@ export const colors = {
   grey: colorize(90),
 };
 
+/**
+ * The available colors to use for text.
+ */
 export type Color = keyof typeof colors;
 
 function colorize(color: number): (text: string) => string {
