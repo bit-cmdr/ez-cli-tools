@@ -3,6 +3,13 @@ import { readlineInterface, input } from './interface.js';
 import { colors } from './colors.js';
 import { eraseLines } from './eraser.js';
 
+/**
+ * Options for the `select` function.
+ * @property multiple Whether the user can select multiple choices. Defaults to `false`.
+ * @property required Whether the user must select at least one choice. Defaults to `true`.
+ * @property selectedIndicatorCharacter The character to use to indicate a selected choice. Defaults to `*`.
+ * @property cursorCharacter The character to use to indicate the cursor. Defaults to `>`.
+ */
 export interface SelectOptions {
   multiple?: boolean;
   required?: boolean;
@@ -33,6 +40,13 @@ const defaultSelectOptions: SelectOptionsInternal = {
   renderMenu: true,
 };
 
+/**
+ * Asks the user to select one or more choices from a list. The user can use the arrow keys to navigate the list, the space key to select a choice, and the return key to submit their selection.
+ * @param question The question to ask the user.
+ * @param choices The choices to display to the user.
+ * @param options SelectOptions The options for the select function.
+ * @returns
+ */
 export function select(question: string, choices: string[], options?: SelectOptions): Promise<string[]> {
   const opts: SelectOptionsInternal = { ...defaultSelectOptions, ...(options ?? {}) };
   assert(opts.multiple === true || opts.multiple === false, 'multiple must be a boolean');
