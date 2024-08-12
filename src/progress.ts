@@ -10,8 +10,8 @@ export type TemplateFunction = (frame: string) => string;
 
 /**
  * Options for printing a spinner.
- * @property intervalMs The interval in milliseconds to print each frame. Defaults to `100`.
- * @property templateFn The template function to use for each frame. Defaults to `(frame: string) => `Running ${frame}``.
+ * @property {number} [intervalMs=100] The interval in milliseconds to print each frame.
+ * @property {TemplateFunction} [templateFn=(frame: string) => `Running ${frame}`] The template function to use for each frame.
  */
 export type PrintSpinnerOptions = {
   intervalMs?: number;
@@ -20,8 +20,8 @@ export type PrintSpinnerOptions = {
 
 /**
  * Options for printing dots.
- * @property intervalMs The interval in milliseconds to print each frame. Defaults to `100`.
- * @property templateFn The template function to use for each frame. Defaults to `(frame: string) => `Running ${frame}``.
+ * @property {number} [intervalMs=100] The interval in milliseconds to print each frame.
+ * @property {TemplateFunction} [templateFn=(frame: string) => `Running ${frame}`] The template function to use for each frame.
  */
 export type PrintDotsOptions = {
   intervalMs?: number;
@@ -30,8 +30,8 @@ export type PrintDotsOptions = {
 
 /**
  * Options for printing progress.
- * @property intervalMs The interval in milliseconds to print each frame. Defaults to `100`.
- * @property templateFn The template function to use for each frame. Defaults to `(frame: string) => `Progress: ${frame}%``.
+ * @property {number} [intervalMs=100] The interval in milliseconds to print each frame.
+ * @property {TemplateFunction} [templateFn=(frame: string) => `Progress: ${frame}%`] The template function to use for each frame.
  */
 export type PrintProgressAtIntervalOptions = {
   intervalMs?: number;
@@ -40,7 +40,7 @@ export type PrintProgressAtIntervalOptions = {
 
 /**
  * Options for printing frames at an interval.
- * @property frameColor The Color to use for the frame.
+ * @property {Color} [frameColor] The Color to use for the frame.
  */
 export type PrintFramesAtIntervalOptions = {
   frameColor?: Color;
@@ -49,8 +49,8 @@ export type PrintFramesAtIntervalOptions = {
 /**
  * Prints a spinner to the output stream and returns a NodeJS.Timeout object that can be used to end the spinner.
  * Note: Printing anything to the output stream will have unexpected results.
- * @param PrintSpinnerOptions The options for printing the spinner. Defaults to `{ intervalMs: 100, templateFn: (frame: string) => `Running ${frame}` }`.
- * @returns NodeJS.Timeout object that can be used to end the spinner.
+ * @param {PrintSpinnerOptions} [param0={ intervalMs: 100, templateFn: (frame: string) => `Running ${frame}`}] The options for printing the spinner.
+ * @returns {NodeJS.Timeout} object that can be used to end the spinner.
  */
 export function printSpinner({
   intervalMs = 100,
@@ -63,8 +63,8 @@ export function printSpinner({
 /**
  * Prints dots to the output stream and returns a NodeJS.Timeout object that can be used to end the dots.
  * Note: Printing anything to the output stream will have unexpected results.
- * @param PrintDotsOptions The options for printing the dots. Defaults to `{ intervalMs: 100, templateFn: (frame: string) => `Running ${frame}` }`.
- * @returns NodeJS.Timeout object that can be used to end the dots.
+ * @param {PrintDotsOptions} [param0={ intervalMs: 100, templateFn: (frame: string) => `Running ${frame}`}] The options for printing the dots.
+ * @returns {NodeJS.Timeout} object that can be used to end the dots.
  */
 export function printDots({
   intervalMs = 100,
@@ -77,8 +77,8 @@ export function printDots({
 /**
  * Prints progress to the output stream and returns a function that can be used to update the progress.
  * Note: Printing anything to the output stream will have unexpected results.
- * @param PrintProgressAtIntervalOptions The options for printing the progress. Defaults to `{ intervalMs: 100, templateFn: (frame: string) => `Progress: ${frame}%` }`.
- * @returns NodeJS.Timeout object that can be used to end the progress.
+ * @param {PrintProgressAtIntervalOptions} [param0={ intervalMs: 100, templateFn: (frame: string) => `Running ${frame}`}] The options for printing the progress.
+ * @returns {NodeJS.Timeout} object that can be used to end the progress.
  */
 export function printProgressAtInterval({
   intervalMs = 100,
@@ -91,10 +91,10 @@ export function printProgressAtInterval({
 /**
  * Prints frames to the output stream at an interval and returns a NodeJS.Timeout object that can be used to end the frames.
  * Note: Printing anything to the output stream will have unexpected results.
- * @param frames The frames to print, this is an array of strings like `['.', '..', '...']`.
- * @param intervalMs The interval in milliseconds to print each frame.
- * @param options The options for printing the frames.
- * @returns NodeJS.Timeout object that can be used to end the frames.
+ * @param {string[]} frames The frames to print, this is an array of strings like `['.', '..', '...']`.
+ * @param {number} intervalMs The interval in milliseconds to print each frame.
+ * @param {PrintFramesAtIntervalOptions} [options] The options for printing the frames.
+ * @returns {NodeJS.Timeout} object that can be used to end the frames.
  */
 export function printFramesAtInterval(
   frames: string[],
@@ -122,15 +122,15 @@ export function printFramesAtInterval(
 
 /**
  * Create a function that prints the progress to the output stream. Expects to be called with a new number between 0 and 100 each time you want the progress to be updated.
- * @param templateFn Template function that takes a number and returns a string. Defaults to (n: number) => `Progress: ${n}%`
- * @returns A function that accepts the progress as a number between 0 and 100 to be printed to the output stream.
+ * @param {TemplateFunction} [templateFn=(n: string) => `Progress: ${n}%`] Template function that takes a number and returns a string. Defaults to (n: number) => `Progress: ${n}%`
+ * @returns {(progress: number) => void} A function that accepts the progress as a number between 0 and 100 to be printed to the output stream.
  */
 export function printProgress(
   templateFn: TemplateFunction = (n: string) => `Progress: ${n}%`,
 ): (progress: number) => void {
   /**
    * Prints the progress to the output stream.
-   * @param progress The progress to print.
+   * @param {number} progress The progress to print.
    */
   return (progress: number) => {
     const frame = templateFn(progress.toFixed(0));
@@ -140,7 +140,7 @@ export function printProgress(
 
 /**
  * Ends the specified interval and clears the progress from the output stream.
- * @param interval NodeJS.Timeout object that represents the interval to end.
+ * @param {NodeJS.Timeout} interval object that represents the interval to end.
  */
 export function endIntervalAndClearStatus(interval: NodeJS.Timeout): void {
   endInterval(interval);

@@ -5,10 +5,10 @@ import { eraseLines } from './eraser.js';
 
 /**
  * Options for the `select` function.
- * @property multiple Whether the user can select multiple choices. Defaults to `false`.
- * @property required Whether the user must select at least one choice. Defaults to `true`.
- * @property selectedIndicatorCharacter The character to use to indicate a selected choice. Defaults to `*`.
- * @property cursorCharacter The character to use to indicate the cursor. Defaults to `>`.
+ * @property {boolean} [multiple=false] Whether the user can select multiple choices.
+ * @property {boolean} [required=true] Whether the user must select at least one choice.
+ * @property {string} [selectedIndicatorCharacter='*'] The character to use to indicate a selected choice.
+ * @property {string} [cursorCharacter='>'] The character to use to indicate the cursor.
  */
 export interface SelectOptions {
   multiple?: boolean;
@@ -42,9 +42,13 @@ const defaultSelectOptions: SelectOptionsInternal = {
 
 /**
  * Asks the user to select one or more choices from a list. The user can use the arrow keys to navigate the list, the space key to select a choice, and the return key to submit their selection.
- * @param question The question to ask the user.
- * @param choices The choices to display to the user.
- * @param options SelectOptions The options for the select function.
+ * @param {string} question The question to ask the user.
+ * @param {string[]} choices The choices to display to the user.
+ * @param {SelectOptions} options SelectOptions The options for the select function.
+ * @param {boolean} [options.multiple=false] Whether the user can select multiple choices.
+ * @param {boolean} [options.required=true] Whether the user must select at least one choice.
+ * @param {string} [options.selectedIndicatorCharacter='*'] The character to use to indicate a selected choice.
+ * @param {string} [options.cursorCharacter='>'] The character to use to indicate the cursor.
  * @returns
  */
 export function select(question: string, choices: string[], options?: SelectOptions): Promise<string[]> {

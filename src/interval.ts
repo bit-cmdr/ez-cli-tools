@@ -4,9 +4,9 @@ const intervals: Set<NodeJS.Timeout> = new Set();
 
 /**
  * Creates an interval that calls the given callback every n milliseconds. The intervals are tracked internally as well.
- * @param callback The code to execute every interval.
- * @param ms The number of milliseconds to wait between each interval.
- * @returns NodeJS.Timeout object that can be used to clear the interval.
+ * @param {() => void} callback The code to execute every interval.
+ * @param {number} ms The number of milliseconds to wait between each interval.
+ * @returns {NodeJS.Timeout} object that can be used to clear the interval.
  */
 export function createInterval(callback: () => void, ms: number): NodeJS.Timeout {
   const interval = setInterval(callback, ms);
@@ -16,7 +16,7 @@ export function createInterval(callback: () => void, ms: number): NodeJS.Timeout
 
 /**
  * Used to end a specified interval.
- * @param interval NodeJS.Timeout object that represents the interval to end.
+ * @param {NodeJS.Timeout} interval NodeJS.Timeout object that represents the interval to end.
  */
 export function endInterval(interval: NodeJS.Timeout): void {
   clearInterval(interval);

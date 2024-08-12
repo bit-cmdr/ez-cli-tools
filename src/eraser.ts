@@ -2,7 +2,7 @@ import { output } from './interface.js';
 
 /**
  * Erases the specified number of lines from the output stream.
- * @param n The number of lines to erase.
+ * @param {number} n The number of lines to erase.
  */
 export function eraseLines(n: number): void {
   let eraser = '';
