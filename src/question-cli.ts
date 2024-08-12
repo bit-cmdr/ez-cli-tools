@@ -6,5 +6,7 @@ import { readlineInterface } from './interface.js';
  * @returns The user's input.
  */
 export async function ask(question: string): Promise<string> {
-  return readlineInterface.question(question + ' ');
+  const answer = await readlineInterface.question(question + ' ');
+  readlineInterface.pause();
+  return answer;
 }

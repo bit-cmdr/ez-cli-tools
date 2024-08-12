@@ -16,7 +16,7 @@ $ Hello world
 ```ts
 import { writeLine } from 'ez-cli-tools';
 
-await writeLine('Hello world');
+writeLine('Hello world');
 /* Output:
 $ Hello world
 $ 
@@ -28,7 +28,7 @@ $
 ```ts
 import { writeLines } from 'ez-cli-tools';
 
-await writeLines(['Hello', 'world']);
+writeLines(['Hello', 'world']);
 /* Output:
 $ Hello
 $ world
@@ -41,7 +41,7 @@ $
 ```ts
 import { writeBlankLine } from 'ez-cli-tools';
 
-await writeBlankLine();
+writeBlankLine();
 /* Output:
 $ 
 $
