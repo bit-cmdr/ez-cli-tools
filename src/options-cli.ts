@@ -3,21 +3,29 @@ import { readlineInterface, input } from './interface.js';
 import { colors } from './colors.js';
 import { eraseLines } from './eraser.js';
 
+const Keypress = 'keypress';
+
 /**
  * Options for the `select` function.
  * @property {boolean} [multiple=false] Whether the user can select multiple choices.
  * @property {boolean} [required=true] Whether the user must select at least one choice.
- * @property {string} [selectedIndicatorCharacter='*'] The character to use to indicate a selected choice.
- * @property {string} [cursorCharacter='>'] The character to use to indicate the cursor.
+ * @property {string} [cursor='>'] The string to use to indicate the cursor. Mutually exclusive with `hoverStyle`.
+ * @property {string} [selectedStyle='[*]'] The string to use to indicate a selected choice.
+ * @property {string} [unselectedStyle='[ ]'] The string to use to indicate an unselected choice.
+ * @property {string} [hoverStyle=] The string to use to indicate the cursor when hovering over a choice. Mutually exclusive with `cursor`.
  */
 export interface SelectOptions {
   multiple?: boolean;
   required?: boolean;
-  selectedIndicatorCharacter?: string;
-  cursorCharacter?: string;
+  cursor?: string;
+  selectedStyle?: string;
+  unselectedStyle?: string;
+  hoverStyle?: string;
 }
 
-interface SelectOptionsInternal extends Required<SelectOptions> {
+interface SelectOptionsInternal extends Required<Omit<SelectOptions, 'cursor' | 'hoverStyle'>> {
+  cursor?: string;
+  hoverStyle?: string;
   renderMenu: boolean;
 }
 
@@ -32,14 +40,6 @@ type SelectChoices = {
   cursorIndex: number;
 };
 
-const defaultSelectOptions: SelectOptionsInternal = {
-  multiple: false,
-  required: true,
-  selectedIndicatorCharacter: '*',
-  cursorCharacter: '>',
-  renderMenu: true,
-};
-
 /**
  * Asks the user to select one or more choices from a list. The user can use the arrow keys to navigate the list, the space key to select a choice, and the return key to submit their selection.
  * @param {string} question The question to ask the user.
@@ -47,15 +47,37 @@ const defaultSelectOptions: SelectOptionsInternal = {
  * @param {SelectOptions} options SelectOptions The options for the select function.
  * @param {boolean} [options.multiple=false] Whether the user can select multiple choices.
  * @param {boolean} [options.required=true] Whether the user must select at least one choice.
- * @param {string} [options.selectedIndicatorCharacter='*'] The character to use to indicate a selected choice.
- * @param {string} [options.cursorCharacter='>'] The character to use to indicate the cursor.
+ * @param {string} [options.cursor='>'] The string to use to indicate the cursor. Mutually exclusive with `hoverStyle`.
+ * @param {string} [options.selectedStyle='[*]'] The string to use to indicate a selected choice.
+ * @param {string} [options.unselectedStyle='[ ]'] The string to use to indicate an unselected choice.
+ * @param {string} [options.hoverStyle=] The string to use to indicate the cursor when hovering over a choice. Mutually exclusive with `cursor`.
  * @returns
  */
 export function select(question: string, choices: string[], options?: SelectOptions): Promise<string[]> {
+  const defaultSelectOptions: SelectOptionsInternal = {
+    multiple: false,
+    required: true,
+    selectedStyle: '[*]',
+    unselectedStyle: '[ ]',
+    renderMenu: true,
+  };
   const opts: SelectOptionsInternal = { ...defaultSelectOptions, ...(options ?? {}) };
   assert(opts.multiple === true || opts.multiple === false, 'multiple must be a boolean');
-  assert(opts.selectedIndicatorCharacter.length === 1, 'selectedIndicatorCharacter must be a single character');
-  assert(opts.cursorCharacter.length === 1, 'cursorCharacter must be a single character');
+  const cursor =
+    (opts.cursor === undefined || opts.cursor === null) && (opts.hoverStyle === undefined || opts.hoverStyle === null)
+      ? '>'
+      : opts.cursor;
+  const hoverStyle = cursor !== null && cursor !== undefined ? undefined : opts.hoverStyle;
+  assert(
+    cursor !== undefined || cursor !== null || hoverStyle !== undefined || hoverStyle !== null,
+    'cursor or hoverStyle must be defined',
+  );
+  assert(
+    !(cursor !== undefined && cursor !== null && hoverStyle !== undefined && hoverStyle !== null),
+    'cursor and hoverStyle are mutually exclusive',
+  );
+  opts.cursor = cursor;
+  opts.hoverStyle = hoverStyle;
 
   return new Promise((resolve) => {
     const selectChoices: SelectChoices = {
@@ -67,11 +89,11 @@ export function select(question: string, choices: string[], options?: SelectOpti
       switch (key.name) {
         case 'down':
           selectChoices.cursorIndex = Math.min(selectChoices.choices.length - 1, selectChoices.cursorIndex + 1);
-          displaySelectMenu(selectChoices, opts);
+          drawSelectMenu(selectChoices, opts);
           break;
         case 'up':
           selectChoices.cursorIndex = Math.max(0, selectChoices.cursorIndex - 1);
-          displaySelectMenu(selectChoices, opts);
+          drawSelectMenu(selectChoices, opts);
           break;
         case 'return':
           const selectedChoices = selectChoices.choices
@@ -82,7 +104,7 @@ export function select(question: string, choices: string[], options?: SelectOpti
             break;
           }
 
-          readlineInterface.removeListener('keypress', keypressListener);
+          input.removeListener(Keypress, keypressListener);
           readlineInterface.pause();
 
           return resolve(selectedChoices);
@@ -95,18 +117,18 @@ export function select(question: string, choices: string[], options?: SelectOpti
           }
 
           selectedChoice.isSelected = !selectedChoice.isSelected;
-          displaySelectMenu(selectChoices, opts);
+          drawSelectMenu(selectChoices, opts);
           break;
       }
     };
 
     readlineInterface.write(question + '\n');
-    displaySelectMenu(selectChoices, opts);
-    input.on('keypress', keypressListener);
+    drawSelectMenu(selectChoices, opts);
+    input.on(Keypress, keypressListener);
   });
 }
 
-function displaySelectMenu(selectChoices: SelectChoices, opts: SelectOptionsInternal): void {
+function drawSelectMenu(selectChoices: SelectChoices, opts: SelectOptionsInternal): void {
   if (opts.renderMenu) {
     opts.renderMenu = false;
   } else {
@@ -114,17 +136,47 @@ function displaySelectMenu(selectChoices: SelectChoices, opts: SelectOptionsInte
   }
 
   const padding = padInput();
-  const cursor = colors.blue(opts.cursorCharacter);
-  const selectedIndicator = colors.green(opts.selectedIndicatorCharacter);
+  const selectedIndicator = colors.green(opts.selectedStyle);
+  const unselectedIndicator = opts.unselectedStyle;
   for (let i = 0; i < selectChoices.choices.length; i++) {
     const choice = selectChoices.choices[i];
     assert(choice, 'choice must be defined');
 
-    const choiceText = choice?.isSelected ? `[${selectedIndicator}] ${choice.text}` : `[ ] ${choice.text}`;
-    const displayChoice = i === selectChoices.cursorIndex ? `${cursor} ${choiceText}` : `  ${choiceText}`;
+    const drawableChoice = choiceToDraw(
+      selectedIndicator,
+      unselectedIndicator,
+      choice.isSelected,
+      i === selectChoices.cursorIndex,
+      choice.text,
+      opts.cursor ? colors.blue(opts.cursor) : undefined,
+      opts.hoverStyle ? colors.blue(opts.hoverStyle) : undefined,
+    );
+
     const tail = i !== selectChoices.choices.length - 1 ? '\n' : '';
-    readlineInterface.write(`${padding}${displayChoice}${tail}`);
+    readlineInterface.write(`${padding}${drawableChoice}${tail}`);
   }
+}
+
+function choiceToDraw(
+  selectedIndicator: string,
+  unselectedIndicator: string,
+  isSelected: boolean,
+  isHovered: boolean,
+  text: string,
+  cursor?: string,
+  hoverStyle?: string,
+): string {
+  if (cursor) {
+    const choice = isSelected ? `${selectedIndicator} ${text}` : `${unselectedIndicator} ${text}`;
+    return isHovered ? `${cursor} ${choice}` : `${padInput(cursor.length - 9)} ${choice}`;
+  }
+
+  assert(hoverStyle, 'hoverStyle must be defined');
+  if (isSelected) {
+    return `${selectedIndicator} ${text}`;
+  }
+
+  return isHovered ? `${hoverStyle} ${text}` : `${unselectedIndicator} ${text}`;
 }
 
 function padInput(n: number = 5): string {
