@@ -1,6 +1,6 @@
 {
   "name": "ez-cli-tools",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -13,9 +13,10 @@
   "module": "./dist/esm/index.mjs",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "pnpm build:cjs && pnpm build:esm",
-    "build:cjs": "rm -rf ./dist/cjs && tsc -p ./configs/tsconfig.cjs.json",
-    "build:esm": "rm -rf ./dist/esm && rm -rf ./dist/types && tsc -p ./configs/tsconfig.esm.json && pnpm tsx scripts/rename-js-to-mjs.ts",
+    "build": "pnpm clean && pnpm build:cjs && pnpm build:esm",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && pnpm tsx scripts/rename-js-to-mjs.ts",
+    "clean": "rimraf ./dist",
     "prettier": "prettier --check src/**/*.ts index.ts",
     "prettier:fix": "prettier --write src/**/*.ts index.ts",
     "lint": "eslint --cache --ext .ts ./src index.ts",
@@ -38,8 +39,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs",
       "types": "./dist/types/index.d.ts"
     },
     "./package.json": "./package.json"
@@ -52,6 +53,7 @@
     "@typescript-eslint/parser": "7.16.0",
     "eslint": "9.7.0",
     "prettier": "3.3.3",
+    "rimraf": "6.0.1",
     "tsx": "4.16.2",
     "typescript": "5.5.3"
   }
