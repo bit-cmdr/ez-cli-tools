@@ -2,6 +2,10 @@
 
 A Typescript first CLI tools for Node.js with zero dependencies. Easy to use to get command line input from questions and generating lists of options that the user can select from.
 
+[![npm](https://img.shields.io/npm/v/ez-cli-tools)](https://www.npmjs.com/package/ez-cli-tools)
+[![npm](https://img.shields.io/npm/dt/ez-cli-tools)](https://www.npmjs.com/package/ez-cli-tools)
+[![GitHub](https://img.shields.io/github/license/bit-cmdr/ez-cli-tools)](https://github.com/bit-cmdr/ez-cli-tools/blob/main/LICENSE)
+
 ## Installation
 
 ### NPM
