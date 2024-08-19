@@ -1,6 +1,6 @@
 {
   "name": "ez-cli-tools",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
     "lint": "eslint --cache --ext .ts ./src index.ts",
     "lint:fix": "eslint --cache --fix --ext .ts ./src index.ts",
     "check": "pnpm lint && pnpm prettier",
-    "fix": "pnpm lint:fix && pnpm prettier:fix"
+    "fix": "pnpm lint:fix && pnpm prettier:fix",
+    "test": "pnpm vitest run ./tests"
   },
   "type": "module",
   "keywords": [
@@ -55,6 +56,7 @@
     "prettier": "3.3.3",
     "rimraf": "6.0.1",
     "tsx": "4.16.2",
-    "typescript": "5.5.3"
+    "typescript": "5.5.3",
+    "vitest": "2.0.5"
   }
 }

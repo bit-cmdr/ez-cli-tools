@@ -8,6 +8,10 @@ const CSI = `${ESC}[`; // control sequence introducer
  * @param {number} n The number of lines to erase.
  */
 export function eraseLines(n: number): void {
+  if (n === 0) {
+    return;
+  }
+
   let eraser = '';
   for (let i = 0; i < n; i++) {
     eraser += `${CSI}2K${i < n - 1 ? `${CSI}1A` : ''}`;
