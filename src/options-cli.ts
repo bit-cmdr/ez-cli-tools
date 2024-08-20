@@ -29,14 +29,14 @@ interface SelectOptionsInternal extends Required<Omit<SelectOptions, 'cursor' | 
   renderMenu: boolean;
 }
 
-type SelectChoice = {
-  text: string;
+type SelectChoice<T extends string> = {
+  text: T;
   index: number;
   isSelected: boolean;
 };
 
-type SelectChoices = {
-  choices: SelectChoice[];
+type SelectChoices<T extends string> = {
+  choices: SelectChoice<T>[];
   cursorIndex: number;
 };
 
@@ -53,7 +53,11 @@ type SelectChoices = {
  * @param {string} [options.hoverStyle=] The string to use to indicate the cursor when hovering over a choice. Mutually exclusive with `cursor`.
  * @returns
  */
-export function select(question: string, choices: string[], options?: SelectOptions): Promise<string[]> {
+export function select<T extends string>(
+  question: string,
+  choices: readonly T[],
+  options?: SelectOptions,
+): Promise<T[]> {
   const defaultSelectOptions: SelectOptionsInternal = {
     multiple: false,
     required: true,
@@ -80,7 +84,7 @@ export function select(question: string, choices: string[], options?: SelectOpti
   opts.hoverStyle = hoverStyle;
 
   return new Promise((resolve) => {
-    const selectChoices: SelectChoices = {
+    const selectChoices: SelectChoices<(typeof choices)[number]> = {
       choices: choices.map((text, index) => ({ text, index, isSelected: false })),
       cursorIndex: 0,
     };
@@ -128,7 +132,7 @@ export function select(question: string, choices: string[], options?: SelectOpti
   });
 }
 
-function drawSelectMenu(selectChoices: SelectChoices, opts: SelectOptionsInternal): void {
+function drawSelectMenu<T extends string>(selectChoices: SelectChoices<T>, opts: SelectOptionsInternal): void {
   if (opts.renderMenu) {
     opts.renderMenu = false;
   } else {
