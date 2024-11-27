@@ -1,6 +1,6 @@
 {
   "name": "@bit-cmdr/ez-cli-tools",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -49,14 +49,14 @@
   "packageManager": "pnpm@9.14.2",
   "devDependencies": {
     "@tsconfig/node20": "20.1.4",
-    "@types/node": "20.14.10",
-    "@typescript-eslint/eslint-plugin": "7.16.0",
-    "@typescript-eslint/parser": "7.16.0",
-    "eslint": "9.7.0",
-    "prettier": "3.3.3",
+    "@types/node": "22.10.0",
+    "@typescript-eslint/eslint-plugin": "8.16.0",
+    "@typescript-eslint/parser": "8.16.0",
+    "eslint": "9.15.0",
+    "prettier": "3.4.1",
     "rimraf": "6.0.1",
-    "tsx": "4.16.2",
-    "typescript": "5.5.3",
-    "vitest": "2.0.5"
+    "tsx": "4.19.2",
+    "typescript": "5.7.2",
+    "vitest": "2.1.6"
   }
 }
