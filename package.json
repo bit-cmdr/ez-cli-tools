@@ -1,6 +1,6 @@
 {
   "name": "ez-cli-tools",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
     },
     "./package.json": "./package.json"
   },
-  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a",
+  "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387",
   "devDependencies": {
     "@tsconfig/node20": "20.1.4",
     "@types/node": "20.14.10",
