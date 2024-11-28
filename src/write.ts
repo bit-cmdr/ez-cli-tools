@@ -13,7 +13,7 @@ export function write(line: string): void {
  * @param {string} line The line to write.
  */
 export function writeLine(line: string): void {
-  write(`${line}\n`);
+  output.write(`${line}\n`);
 }
 
 /**
@@ -28,5 +28,5 @@ export function writeLines(lines: string[]): void {
  * Writes a blank line to the output stream.
  */
 export function writeBlankLine(): void {
-  write('\n');
+  writeLine('');
 }
