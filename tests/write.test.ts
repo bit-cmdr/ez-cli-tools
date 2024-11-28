@@ -26,8 +26,40 @@ describe('output writer functions', () => {
     expect(output.write).toHaveBeenCalledWith(`${line}\n`);
   });
 
+  it('should write an empty line with a newline character using writeLine()', () => {
+    const line = '';
+    writeLine(line);
+    expect(output.write).toHaveBeenCalledWith('\n');
+  });
+
+  it('should write a line with special characters using writeLine()', () => {
+    const line = 'Hello, \tWorld!\n';
+    writeLine(line);
+    expect(output.write).toHaveBeenCalledWith(`${line}\n`);
+  });
+
   it('should write multiple lines with newline characters using writeLines()', () => {
     const lines = ['First line', 'Second line', 'Third line'];
+    writeLines(lines);
+    lines.forEach((line) => {
+      expect(output.write).toHaveBeenCalledWith(`${line}\n`);
+    });
+  });
+
+  it('should handle an empty array using writeLines()', () => {
+    const lines: string[] = [];
+    writeLines(lines);
+    expect(output.write).not.toHaveBeenCalled();
+  });
+
+  it('should handle an array with one line using writeLines()', () => {
+    const lines = ['Only one line'];
+    writeLines(lines);
+    expect(output.write).toHaveBeenCalledWith('Only one line\n');
+  });
+
+  it('should write multiple lines with special characters using writeLines()', () => {
+    const lines = ['First line', 'Second line\twith tab', 'Third line\nwith newline'];
     writeLines(lines);
     lines.forEach((line) => {
       expect(output.write).toHaveBeenCalledWith(`${line}\n`);

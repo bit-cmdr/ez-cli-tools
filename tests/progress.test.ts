@@ -112,6 +112,14 @@ describe('output printing functions', () => {
     expect(timeout).toBe(intervalMock);
   });
 
+  it('should throw an error if frames array is empty', () => {
+    expect(() => printFramesAtInterval([], 100)).toThrow('frames must not be empty');
+  });
+
+  it('should throw an error if frames array is empty', () => {
+    expect(() => printFramesAtInterval(['one', '', 'three'], 100)).toThrow('frames must not contain empty elements');
+  });
+
   it('should print progress correctly when calling printProgress', () => {
     const printFn = printProgress((n) => `Progress: ${n}%`);
 
