@@ -102,6 +102,10 @@ export function printFramesAtInterval(
   options?: PrintFramesAtIntervalOptions,
 ): NodeJS.Timeout {
   assert(frames.length > 0, 'frames must not be empty');
+  assert(
+    frames.every((frame) => !!frame),
+    'frames must not contain empty elements',
+  );
 
   let i = 0;
   return createInterval(() => {
