@@ -12,7 +12,7 @@ async function renameJsToMjs(directory: string): Promise<void> {
       const newFullPath = fullPath.replace(/\.js$/, '.mjs');
       await rename(fullPath, newFullPath);
       const contents = await readFile(newFullPath, 'utf-8');
-      const updatedContents = contents.replace(/\.js\'/g, ".mjs'").replace(/\.js\"/g, '.mjs\"');
+      const updatedContents = contents.replace(/\.js'/g, ".mjs'").replace(/\.js"/g, '.mjs"');
       await writeFile(newFullPath, updatedContents, 'utf-8');
     }
   }
