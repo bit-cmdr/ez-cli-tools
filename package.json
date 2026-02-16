@@ -1,6 +1,6 @@
 {
   "name": "@bit-cmdr/ez-cli-tools",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",
@@ -40,9 +40,9 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.mjs",
-      "require": "./dist/cjs/index.cjs",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/cjs/index.cjs"
     },
     "./package.json": "./package.json"
   },
