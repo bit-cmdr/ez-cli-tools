@@ -90,6 +90,8 @@ export function select<T extends string>(
     };
 
     const keypressListener = (_: string, key: { name: string }) => {
+      const selectedChoices = selectChoices.choices.filter((choice) => choice.isSelected).map((choice) => choice.text);
+      const selectedChoice = selectChoices.choices[selectChoices.cursorIndex];
       switch (key.name) {
         case 'down':
           selectChoices.cursorIndex = Math.min(selectChoices.choices.length - 1, selectChoices.cursorIndex + 1);
@@ -100,10 +102,6 @@ export function select<T extends string>(
           drawSelectMenu(selectChoices, opts);
           break;
         case 'return':
-          const selectedChoices = selectChoices.choices
-            .filter((choice) => choice.isSelected)
-            .map((choice) => choice.text);
-
           if (opts.required && selectedChoices.length === 0) {
             break;
           }
@@ -113,7 +111,6 @@ export function select<T extends string>(
 
           return resolve(selectedChoices);
         case 'space':
-          const selectedChoice = selectChoices.choices[selectChoices.cursorIndex];
           assert(selectedChoice, 'selectedChoice must be defined');
 
           if (!opts.multiple) {

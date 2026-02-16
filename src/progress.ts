@@ -1,5 +1,6 @@
 import { output } from './interface.js';
-import { colors, Color } from './colors.js';
+import type { Color } from './colors.js';
+import { colors } from './colors.js';
 import { createInterval, endInterval } from './interval.js';
 import assert from 'node:assert';
 
