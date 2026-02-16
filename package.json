@@ -1,6 +1,6 @@
 {
   "name": "@bit-cmdr/ez-cli-tools",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "description": "Typescript first CLI tools for Node.js with zero dependencies",
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-import { readdir, rename } from 'node:fs/promises';
+import { readdir, rename, readFile, writeFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
 async function renameJsToMjs(directory: string): Promise<void> {
@@ -11,6 +11,9 @@ async function renameJsToMjs(directory: string): Promise<void> {
     } else if (file.isFile() && extname(file.name) === '.js') {
       const newFullPath = fullPath.replace(/\.js$/, '.mjs');
       await rename(fullPath, newFullPath);
+      const contents = await readFile(newFullPath, 'utf-8');
+      const updatedContents = contents.replace(/\.js\'/g, ".mjs'").replace(/\.js\"/g, '.mjs\"');
+      await writeFile(newFullPath, updatedContents, 'utf-8');
     }
   }
 }
