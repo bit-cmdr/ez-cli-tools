@@ -3,7 +3,7 @@
 ## Spinner
 
 ```ts
-import { printSpinner, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printSpinner, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printSpinner();
@@ -12,7 +12,7 @@ endIntervalAndClearStatus(intervalId);
 ```
 
 ```ts
-import { printSpinner, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printSpinner, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printSpinner({ intervalMs: 250 });
@@ -21,7 +21,7 @@ endIntervalAndClearStatus(intervalId);
 ```
 
 ```ts
-import { printSpinner, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printSpinner, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printSpinner({ intervalMs: 500, templateFn: (frame: string) => `Testing ${frame}` });
@@ -32,7 +32,7 @@ endIntervalAndClearStatus(intervalId);
 ## Dots
 
 ```ts
-import { printDots, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printDots, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId1 = printDots();
@@ -41,7 +41,7 @@ endIntervalAndClearStatus(intervalId1);
 ```
 
 ```ts
-import { printDots, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printDots, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printDots({ intervalMs: 250 });
@@ -50,7 +50,7 @@ endIntervalAndClearStatus(intervalId);
 ```
 
 ```ts
-import { printDots, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printDots, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printDots({ intervalMs: 500, templateFn: (frame: string) => `Testing ${frame}` });
@@ -61,7 +61,7 @@ endIntervalAndClearStatus(intervalId);
 ## Progress at an interval
 
 ```ts
-import { printProgressAtInterval, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printProgressAtInterval, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printProgressAtInterval();
@@ -70,7 +70,7 @@ endIntervalAndClearStatus(intervalId);
 ```
 
 ```ts
-import { printProgressAtInterval, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printProgressAtInterval, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printProgressAtInterval({ intervalMs: 250 });
@@ -79,18 +79,21 @@ endIntervalAndClearStatus(intervalId);
 ```
 
 ```ts
-import { printProgressAtInterval, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printProgressAtInterval, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
-const intervalId = printProgressAtInterval({ intervalMs: 500, templateFn: (progress: number) => `Testing ${progress}%` });
+const intervalId = printProgressAtInterval({
+  intervalMs: 500,
+  templateFn: (progress: number) => `Testing ${progress}%`,
+});
 await setTimeout(30000);
-  endIntervalAndClearStatus(intervalId);
+endIntervalAndClearStatus(intervalId);
 ```
 
 ## Progress
 
 ```ts
-import { printProgress, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printProgress, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 
 const progress = printProgress();
 
@@ -100,7 +103,7 @@ for (let i = 0; i <= 1000; i++) {
 ```
 
 ```ts
-import { printProgress, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printProgress, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 
 const progress = printProgress((n: string) => `Testing at: ${n}%`);
 
@@ -110,9 +113,9 @@ for (let i = 0; i <= 1000; i++) {
 ```
 
 ## Make your own animation
-  
+
 ```ts
-import { printFramesAtInterval, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { printFramesAtInterval, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 const intervalId = printFramesAtInterval(

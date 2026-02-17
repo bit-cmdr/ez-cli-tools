@@ -2,8 +2,8 @@
 
 A Typescript first CLI tools for Node.js with zero dependencies. Easy to use to get command line input from questions and generating lists of options that the user can select from.
 
-[![npm](https://img.shields.io/npm/v/ez-cli-tools)](https://www.npmjs.com/package/ez-cli-tools)
-[![npm](https://img.shields.io/npm/dt/ez-cli-tools)](https://www.npmjs.com/package/ez-cli-tools)
+[![npm](https://img.shields.io/npm/v/@bit-cmdr/ez-cli-tools)](https://www.npmjs.com/package/@bit-cmdr/ez-cli-tools)
+[![npm](https://img.shields.io/npm/dt/@bit-cmdr/ez-cli-tools)](https://www.npmjs.com/package/@bit-cmdr/ez-cli-tools)
 [![GitHub](https://img.shields.io/github/license/bit-cmdr/ez-cli-tools)](https://github.com/bit-cmdr/ez-cli-tools/blob/main/LICENSE)
 
 ## Installation
@@ -11,19 +11,19 @@ A Typescript first CLI tools for Node.js with zero dependencies. Easy to use to 
 ### NPM
 
 ```sh
-npm install ez-cli-tools
+npm install @bit-cmdr/ez-cli-tools
 ```
 
 ### Yarn
 
 ```sh
-yarn add ez-cli-tools
+yarn add @bit-cmdr/ez-cli-tools
 ```
 
 ### PNPM
 
 ```sh
-pnpm add ez-cli-tools
+pnpm add @bit-cmdr/ez-cli-tools
 ```
 
 ## Usage
@@ -37,7 +37,7 @@ pnpm add ez-cli-tools
 ### Brief Example
 
 ```ts
-import { writeLine, ask, select, printSpinner, endIntervalAndClearStatus } from 'ez-cli-tools';
+import { writeLine, ask, select, printSpinner, endIntervalAndClearStatus } from '@bit-cmdr/ez-cli-tools';
 import { setTimeout } from 'timers/promises';
 
 (async () => {
@@ -50,5 +50,4 @@ import { setTimeout } from 'timers/promises';
   endIntervalAndClearStatus(intervalId);
   writeLine('An interesting game. The only winning move is not to play.');
 })();
-
 ```

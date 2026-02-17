@@ -3,7 +3,7 @@
 ## write
 
 ```ts
-import { write } from 'ez-cli-tools';
+import { write } from '@bit-cmdr/ez-cli-tools';
 
 await write('Hello world');
 /* Output:
@@ -14,7 +14,7 @@ $ Hello world
 ## writeLine
 
 ```ts
-import { writeLine } from 'ez-cli-tools';
+import { writeLine } from '@bit-cmdr/ez-cli-tools';
 
 writeLine('Hello world');
 /* Output:
@@ -26,7 +26,7 @@ $
 ## writeLines
 
 ```ts
-import { writeLines } from 'ez-cli-tools';
+import { writeLines } from '@bit-cmdr/ez-cli-tools';
 
 writeLines(['Hello', 'world']);
 /* Output:
@@ -39,7 +39,7 @@ $
 ## writeBlankLine
 
 ```ts
-import { writeBlankLine } from 'ez-cli-tools';
+import { writeBlankLine } from '@bit-cmdr/ez-cli-tools';
 
 writeBlankLine();
 /* Output:
