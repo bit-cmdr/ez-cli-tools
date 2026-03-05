@@ -1,3 +1,4 @@
+import assert from 'node:assert';
 import { setInterval, clearInterval } from 'node:timers';
 
 const intervals: Set<NodeJS.Timeout> = new Set();
@@ -9,6 +10,7 @@ const intervals: Set<NodeJS.Timeout> = new Set();
  * @returns {NodeJS.Timeout} object that can be used to clear the interval.
  */
 export function createInterval(callback: () => void, ms: number): NodeJS.Timeout {
+  assert(ms > 0, 'ms must be positive');
   const interval = setInterval(callback, ms);
   intervals.add(interval);
   return interval;

@@ -84,7 +84,7 @@ import { setTimeout } from 'timers/promises';
 
 const intervalId = printProgressAtInterval({
   intervalMs: 500,
-  templateFn: (progress: number) => `Testing ${progress}%`,
+  templateFn: (progress: string) => `Testing ${progress}%`,
 });
 await setTimeout(30000);
 endIntervalAndClearStatus(intervalId);

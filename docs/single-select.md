@@ -1,5 +1,7 @@
 # Single select option
 
+**Keyboard controls:** ↑ / ↓ to move, Space to select, Enter to confirm.
+
 ```ts
 import { select } from '@bit-cmdr/ez-cli-tools';
 

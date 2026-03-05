@@ -72,14 +72,6 @@ export function select<T extends string>(
       ? '>'
       : opts.cursor;
   const hoverStyle = cursor !== null && cursor !== undefined ? undefined : opts.hoverStyle;
-  assert(
-    cursor !== undefined || cursor !== null || hoverStyle !== undefined || hoverStyle !== null,
-    'cursor or hoverStyle must be defined',
-  );
-  assert(
-    !(cursor !== undefined && cursor !== null && hoverStyle !== undefined && hoverStyle !== null),
-    'cursor and hoverStyle are mutually exclusive',
-  );
   opts.cursor = cursor;
   opts.hoverStyle = hoverStyle;
 
@@ -169,7 +161,8 @@ function choiceToDraw(
 ): string {
   if (cursor) {
     const choice = isSelected ? `${selectedIndicator} ${text}` : `${unselectedIndicator} ${text}`;
-    return isHovered ? `${cursor} ${choice}` : `${padInput(cursor.length - 9)} ${choice}`;
+    // cursor.length - 9 accounts for the 9 ANSI escape chars added by colors.blue(): \x1b[34m (5) + \x1b[0m (4)
+    return isHovered ? `${cursor} ${choice}` : `${padInput(Math.max(0, cursor.length - 9))} ${choice}`;
   }
 
   assert(hoverStyle, 'hoverStyle must be defined');

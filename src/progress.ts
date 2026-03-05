@@ -110,14 +110,6 @@ export function printFramesAtInterval(
 
   let i = 0;
   return createInterval(() => {
-    if (i < 0) {
-      i = 0;
-    }
-
-    if (i >= frames.length) {
-      i = frames.length - 1;
-    }
-
     const frame = frames[i];
     assert(frame, 'frame must not be empty');
     printStatus(options?.frameColor ? colors[options.frameColor](frame) : frame);

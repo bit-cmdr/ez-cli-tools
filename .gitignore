@@ -132,3 +132,5 @@ dist/**
 !dist/
 !dist/types/
 !dist/types/**
+
+CLAUDE.md

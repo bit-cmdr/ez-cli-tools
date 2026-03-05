@@ -1,3 +1,4 @@
+import assert from 'node:assert';
 import { output } from './interface.js';
 
 const ESC = '\x1B'; // escape character
@@ -8,6 +9,7 @@ const CSI = `${ESC}[`; // control sequence introducer
  * @param {number} n The number of lines to erase.
  */
 export function eraseLines(n: number): void {
+  assert(n >= 0, 'n must be non-negative');
   if (n === 0) {
     return;
   }

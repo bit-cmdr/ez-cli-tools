@@ -35,4 +35,8 @@ describe('eraseLines', () => {
     eraseLines(0);
     expect(output.write).not.toHaveBeenCalled();
   });
+
+  it('should throw when n is negative', () => {
+    expect(() => eraseLines(-1)).toThrow();
+  });
 });
