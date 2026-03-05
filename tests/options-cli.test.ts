@@ -134,6 +134,107 @@ describe('select', () => {
     expect(readlineInterface.pause).toHaveBeenCalled();
   });
 
+  it('should resolve with multiple selections in multi-select mode', async () => {
+    const question = 'Select options:';
+    const choices = ['Option 1', 'Option 2', 'Option 3'];
+
+    const selectPromise = select(question, choices, { multiple: true });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(1, question + '\n');
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(2, `     ${colors.blue('>')} [ ] ${choices[0]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(3, `       [ ] ${choices[1]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(4, `       [ ] ${choices[2]}`);
+
+    input.emit('keypress', '', { name: 'space' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(
+      5,
+      `     ${colors.blue('>')} ${colors.green('[*]')} ${choices[0]}\n`,
+    );
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(6, `       [ ] ${choices[1]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(7, `       [ ] ${choices[2]}`);
+
+    input.emit('keypress', '', { name: 'down' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(8, `       ${colors.green('[*]')} ${choices[0]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(9, `     ${colors.blue('>')} [ ] ${choices[1]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(10, `       [ ] ${choices[2]}`);
+
+    input.emit('keypress', '', { name: 'space' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(11, `       ${colors.green('[*]')} ${choices[0]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(
+      12,
+      `     ${colors.blue('>')} ${colors.green('[*]')} ${choices[1]}\n`,
+    );
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(13, `       [ ] ${choices[2]}`);
+
+    input.emit('keypress', '', { name: 'return' });
+
+    const result = await selectPromise;
+    expect(result).toEqual(['Option 1', 'Option 2']);
+    expect(readlineInterface.pause).toHaveBeenCalled();
+  });
+
+  it('should deselect previous item when a different item is selected in single-select mode', async () => {
+    const question = 'Select an option:';
+    const choices = ['Option 1', 'Option 2', 'Option 3'];
+
+    const selectPromise = select(question, choices);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(1, question + '\n');
+
+    input.emit('keypress', '', { name: 'space' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(
+      5,
+      `     ${colors.blue('>')} ${colors.green('[*]')} ${choices[0]}\n`,
+    );
+
+    input.emit('keypress', '', { name: 'down' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(8, `       ${colors.green('[*]')} ${choices[0]}\n`);
+
+    input.emit('keypress', '', { name: 'space' });
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(11, `       [ ] ${choices[0]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(
+      12,
+      `     ${colors.blue('>')} ${colors.green('[*]')} ${choices[1]}\n`,
+    );
+
+    input.emit('keypress', '', { name: 'return' });
+
+    const result = await selectPromise;
+    expect(result).toEqual(['Option 2']);
+  });
+
+  it('should resolve with empty array when required is false and return is pressed immediately', async () => {
+    const question = 'Select an option:';
+    const choices = ['Option 1', 'Option 2', 'Option 3'];
+
+    const selectPromise = select(question, choices, { required: false });
+
+    input.emit('keypress', '', { name: 'return' });
+
+    const result = await selectPromise;
+    expect(result).toEqual([]);
+  });
+
+  it('should render using hoverStyle when hoverStyle option is provided', async () => {
+    const question = 'Select an option:';
+    const choices = ['Option 1', 'Option 2', 'Option 3'];
+
+    const selectPromise = select(question, choices, {
+      hoverStyle: 'o',
+      selectedStyle: '•',
+      unselectedStyle: 'o',
+    });
+
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(1, question + '\n');
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(2, `     ${colors.blue('o')} ${choices[0]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(3, `     o ${choices[1]}\n`);
+    expect(readlineInterface.write).toHaveBeenNthCalledWith(4, `     o ${choices[2]}`);
+
+    input.emit('keypress', '', { name: 'space' });
+    input.emit('keypress', '', { name: 'return' });
+
+    const result = await selectPromise;
+    expect(result).toEqual(['Option 1']);
+  });
+
   it('should render the menu initially and resolve with three arrows down and selection when return is pressed', async () => {
     const question = 'Select an option:';
     const choices = ['Option 1', 'Option 2', 'Option 3'];

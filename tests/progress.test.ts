@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   printSpinner,
@@ -7,6 +8,7 @@ import {
   printProgress,
   endIntervalAndClearStatus,
 } from '../src/progress.js';
+import { colors } from '../src/colors.js';
 
 vi.mock('../src/interface', () => ({
   output: {
@@ -137,5 +139,41 @@ describe('output printing functions', () => {
     expect(endInterval).toHaveBeenCalledWith(interval);
     expect(output.clearLine).toHaveBeenCalledWith(0);
     expect(output.cursorTo).toHaveBeenCalledWith(0);
+  });
+
+  it('should use a custom templateFn in printSpinner', () => {
+    const intervalMock = { ref: vi.fn(), unref: vi.fn() };
+    vi.mocked(createInterval).mockReturnValue(intervalMock as unknown as NodeJS.Timeout);
+
+    printSpinner({ intervalMs: 100, templateFn: (frame: string) => `Loading ${frame}` });
+    const intervalFn = vi.mocked(createInterval).mock.calls[0]![0];
+
+    intervalFn();
+    expect(output.write).toHaveBeenCalledWith('Loading |');
+  });
+
+  it('should colorize frames when frameColor option is provided to printFramesAtInterval', () => {
+    const intervalMock = { ref: vi.fn(), unref: vi.fn() };
+    vi.mocked(createInterval).mockReturnValue(intervalMock as unknown as NodeJS.Timeout);
+
+    const frames = ['frame1', 'frame2'];
+    printFramesAtInterval(frames, 100, { frameColor: 'red' });
+    const intervalFn = vi.mocked(createInterval).mock.calls[0]![0];
+
+    intervalFn();
+    expect(output.write).toHaveBeenCalledWith(colors.red('frame1'));
+  });
+
+  it('should print progress at boundary values using the default template', () => {
+    const printFn = printProgress();
+
+    printFn(0);
+    expect(output.write).toHaveBeenCalledWith('Progress: 0%');
+
+    printFn(50.5);
+    expect(output.write).toHaveBeenCalledWith('Progress: 51%');
+
+    printFn(100);
+    expect(output.write).toHaveBeenCalledWith('Progress: 100%');
   });
 });
